@@ -15,6 +15,7 @@ class AddWorkoutsScreen extends StatefulWidget {
 
 class _AddWorkoutsScreenState extends State<AddWorkoutsScreen> {
   final _formkey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   String _workoutName = '';
   DateTime _selectedDate = DateTime.now();
   String? _selectedImage;
@@ -25,91 +26,98 @@ class _AddWorkoutsScreenState extends State<AddWorkoutsScreen> {
     final double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formkey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Workout Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Container(
+          height: h * 0.8,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Workout Name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _workoutName = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a workout name';
+                      }
+                      return null;
+                    },
                   ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _workoutName = value;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a workout name';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: _selectImage,
-                child: Container(
-                  height: h * 0.3,
-                  width: w,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: _selectedImage == null
-                      ? Center(
-                          child: Text('Select Image'),
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                            File(_selectedImage!),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: _selectDate,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(DateFormat.yMMMEd().format(_selectedDate)),
-                      Icon(Icons.calendar_today, color: Colors.grey),
-                    ],
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-              ),
-              Spacer(),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _addworkout,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                  GestureDetector(
+                    onTap: _selectImage,
+                    child: Container(
+                      height: h * 0.4,
+                      width: w,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: _selectedImage == null
+                          ? Center(
+                              child: Text('Select Image'),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(_selectedImage!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                    ),
                   ),
-                  child: Text('Add Workout'),
-                ),
-              )
-            ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: _selectDate,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(DateFormat.yMMMEd().format(_selectedDate)),
+                          Icon(Icons.calendar_today, color: Colors.grey),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _addworkout,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text('Add Workout'),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -201,7 +209,8 @@ class _AddWorkoutsScreenState extends State<AddWorkoutsScreen> {
           content: Text('Workout Added'),
         ),
       );
-
+      
+      _nameController.clear();
       setState(() {
         _workoutName = '';
         _selectedImage = null;

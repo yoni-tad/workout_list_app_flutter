@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:workout_list/utils/db_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
       final allWorkouts = await DBHelper().getWorkouts();
 
       final filteredWorkouts = allWorkouts.where((workout) {
-        final workoutDate = DateFormat('EEEE').format(DateFormat('EEE, MMM d, yyyy').parse(workout['date']));
+        final workoutDate = DateFormat('EEEE')
+            .format(DateFormat('EEE, MMM d, yyyy').parse(workout['date']));
         return workoutDate == todayDayOfWeek;
       }).toList();
 
@@ -75,14 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       vertical: 20,
                       horizontal: 18,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Hi, Yoni',
                           style: TextStyle(
@@ -101,8 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              'Fri 26, 2024',
-                              // DateFormat.yMMMEd().format(_currentDate),
+                              DateFormat.yMMMEd().format(_currentDate),
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -117,47 +118,51 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: _workouts.map((workout) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: workout['image'] != null
-                              ? FileImage(File(workout['image']))
-                              : const AssetImage('assets/images/150.png')
-                                  as ImageProvider,
+            child: _workouts.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          'assets/animations/01.json',
+                          width: 150,
+                          height: 150,
                           fit: BoxFit.cover,
                         ),
+                        SizedBox(height: 20),
+                        Text(
+                          'No workout found!',
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  )
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: _workouts.map((workout) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: workout['image'] != null
+                                    ? FileImage(File(workout['image']))
+                                    : const AssetImage('assets/images/150.png')
+                                        as ImageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
-                    );
-                  }).toList(),
-                  // [
-
-                  //   // Container(
-                  //   //   width: MediaQuery.of(context).size.width * 0.9,
-                  //   //   margin: EdgeInsets.symmetric(horizontal: 8.0),
-                  //   //   decoration: BoxDecoration(
-                  //   //     color: AppColors.primary,
-                  //   //     borderRadius: BorderRadius.circular(10),
-                  //   //     image: DecorationImage(
-                  //   //       image: AssetImage('assets/images/150.png'),
-                  //   //       fit: BoxFit.cover,
-                  //   //     ),
-                  //   //   ),
-                  //   // )
-                  // ],
-                ),
-              ),
-            ),
+                    ),
+                  ),
           )
         ],
       ),
