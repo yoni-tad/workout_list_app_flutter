@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_list/screens/home_screen.dart';
+import 'package:workout_list/screens/splash_screen.dart';
 import 'package:workout_list/utils/colors.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           headlineMedium: TextStyle(fontFamily: 'Roboto', color: AppColors.text, fontWeight: FontWeight.bold),
         )
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
