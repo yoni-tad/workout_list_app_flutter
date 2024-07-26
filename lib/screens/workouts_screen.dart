@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:workout_list/utils/colors.dart';
 import 'package:workout_list/utils/db_helper.dart';
 
@@ -48,64 +47,80 @@ class _WorkoutsScreenState extends State<WorkoutsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         itemCount: _workouts.length,
         itemBuilder: (context, index) {
           final workout = _workouts[index];
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Container(
-              height: 150,
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                // gradient: const LinearGradient(
-                //   begin: Alignment.topLeft,
-                //   end: Alignment.bottomRight,
-                //   colors: [
-                //     Color(0xFF846AFF),
-                //     Color(0xFF755EE8),
-                //     Colors.purpleAccent,
-                //     Colors.amber,
-                //   ],
-                // ),
-                image: DecorationImage(
-                  image: workout['image'] != null
-                      ? FileImage(File(workout['image']))
-                      : const AssetImage('assets/images/150.png') as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10),
+            child: GestureDetector(
+              onLongPress: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Are you sure to delete this workout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 2.0,
+                      TextButton(
+                        onPressed: () {
+                          _deleteWorkout(workout['id']);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Delete'),
                       ),
-                      child: Text(
-                        workout['name'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.text,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
+                );
+              },
+              child: Container(
+                height: 150,
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: workout['image'] != null
+                        ? FileImage(File(workout['image']))
+                        : const AssetImage('assets/images/150.png')
+                            as ImageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                          vertical: 2.0,
+                        ),
+                        child: Text(
+                          workout['name'],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: AppColors.text,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

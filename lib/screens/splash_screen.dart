@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 230), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainScreen()));
     });
   }

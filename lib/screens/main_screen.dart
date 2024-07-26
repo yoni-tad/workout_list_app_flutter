@@ -12,9 +12,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
-
-  static List<Widget> _widgetOptions = [
+  int _currentIndex = 0;
+  final List<Widget> _screens = [
     HomeScreen(),
     WorkoutsScreen(),
     AddWorkoutsScreen(),
@@ -22,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _currentIndex = index;
     });
   }
 
@@ -34,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: AppColors.primary,
         centerTitle: true,
       ),
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Add workouts',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _currentIndex,
         selectedItemColor: AppColors.primary,
         onTap: _onItemTapped,
       ),
