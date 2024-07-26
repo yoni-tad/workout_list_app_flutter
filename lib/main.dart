@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_list/screens/home_screen.dart';
+import 'package:workout_list/utils/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,8 +13,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primaryColor: AppColors.primary,
+        textTheme: const TextTheme(
+          bodySmall: TextStyle(color: AppColors.text),
+          bodyMedium: TextStyle(color: AppColors.text),
+        )
       ),
       home: HomeScreen(),
     );
