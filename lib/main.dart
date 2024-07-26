@@ -11,12 +11,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Workout Tracker',
       theme: ThemeData(
-        primaryColor: AppColors.primary,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: AppColors.primary,
+          secondary: AppColors.secondary,
+          background: AppColors.background
+        ),
         textTheme: const TextTheme(
-          bodySmall: TextStyle(color: AppColors.text),
-          bodyMedium: TextStyle(color: AppColors.text),
+          bodySmall: TextStyle(fontFamily: 'Roboto', color: AppColors.text),
+          bodyMedium: TextStyle(fontFamily: 'Roboto', color: AppColors.text),
+          bodyLarge: TextStyle(fontFamily: 'Roboto', color: AppColors.text),
+          headlineMedium: TextStyle(fontFamily: 'Roboto', color: AppColors.text, fontWeight: FontWeight.bold),
         )
       ),
       home: HomeScreen(),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:workout_list/screens/add_workouts_screen.dart';
+import 'package:workout_list/screens/workouts_screen.dart';
+import 'package:workout_list/utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,9 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = [
-    Text('Home Page'),
-    Text('Workouts Page'),
-    Text('Add workouts Page')
+    Text('Home Page', style: TextStyle(fontSize: 24)),
+    WorkoutsScreen(),
+    AddWorkoutsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -25,8 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: const Center(),
+      appBar: AppBar(
+        title: Text('Workout Tracker'),
+        backgroundColor: AppColors.primary,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -43,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: AppColors.primary,
         onTap: _onItemTapped,
       ),
     );
