@@ -33,9 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         return workoutDate == todayDayOfWeek;
       }).toList();
 
-      if (allWorkouts.isEmpty) {
-        print('No workouts found!');
-      }
       if (filteredWorkouts.isEmpty) {
         print('No workouts found for today!');
       }
