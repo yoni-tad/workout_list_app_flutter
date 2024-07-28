@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:workout_list/screens/main_screen.dart';
 import 'package:workout_list/utils/colors.dart';
@@ -69,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen>
           _navigateToHome();
         } else {
           print("Cancel it");
-          _navigateToHome();
+          SystemNavigator.pop();
         }
       } else {
         _navigateToHome();
@@ -84,12 +85,6 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  // void _navigateToHome() {
-  //   Future.delayed(const Duration(seconds: 4), () {
-  //     Navigator.of(context).pushReplacement(
-  //         MaterialPageRoute(builder: (context) => const MainScreen()));
-  //   });
-  // }
   void _navigateToHome() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const MainScreen()),
