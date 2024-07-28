@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen>
       bool isBiometricSupported = await auth.isDeviceSupported();
       if (isBiometricSupported) {
         bool authenticated = await auth.authenticate(
-            localizedReason: 'Please authenticate to proceed',
+            localizedReason: 'Touch the fingerprint sensor',
             options: const AuthenticationOptions(
               biometricOnly: true,
               stickyAuth: true,
